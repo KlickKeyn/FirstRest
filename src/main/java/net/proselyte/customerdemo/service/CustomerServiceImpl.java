@@ -19,7 +19,7 @@ public class CustomerServiceImpl implements CustomerService {
 
     public Customer getById(Long id) {
         log.info("IN CustomerServiceImpl getById ()", id);
-        return customerRepository.getOne(id);
+        return customerRepository.findById(id).get();
     }
 
     public void save(Customer customer) {

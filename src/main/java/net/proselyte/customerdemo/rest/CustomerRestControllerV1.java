@@ -10,7 +10,6 @@ import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
 import org.springframework.web.util.UriComponentsBuilder;
 
-import javax.print.attribute.standard.Media;
 import java.util.List;
 
 @RestController
@@ -20,7 +19,7 @@ public class CustomerRestControllerV1 {
 
     private final CustomerService customerService;
 
-    @RequestMapping(value = "{id}", method = RequestMethod.GET, produces = MediaType.APPLICATION_JSON_UTF8_VALUE)
+    @GetMapping("{id}")
     public ResponseEntity<Customer> getCustomer(@PathVariable("id") Long customerId) {
         if (customerId == null) {
             return new ResponseEntity<Customer>(HttpStatus.BAD_REQUEST);
@@ -35,7 +34,7 @@ public class CustomerRestControllerV1 {
         return new ResponseEntity<Customer>(customer, HttpStatus.OK);
     }
 
-    @RequestMapping(value = "", method = RequestMethod.POST, produces = MediaType.APPLICATION_JSON_UTF8_VALUE)
+    @PostMapping
     public ResponseEntity<Customer> saveCustomer(@RequestBody Customer customer) {
         HttpHeaders headers = new HttpHeaders();
 
@@ -47,7 +46,7 @@ public class CustomerRestControllerV1 {
         return new ResponseEntity<Customer>(customer, headers, HttpStatus.CREATED);
     }
 
-    @RequestMapping(value = "", method = RequestMethod.PUT, produces = MediaType.APPLICATION_JSON_UTF8_VALUE)
+    @PutMapping
     public ResponseEntity<Customer> updateCustomer(@RequestBody Customer customer, UriComponentsBuilder builder) {
         HttpHeaders headers = new HttpHeaders();
 
@@ -60,8 +59,8 @@ public class CustomerRestControllerV1 {
         return new ResponseEntity<Customer>(customer, headers, HttpStatus.OK);
     }
 
-    @RequestMapping(value = "{id}", method = RequestMethod.DELETE, produces = MediaType.APPLICATION_JSON_UTF8_VALUE)
-    public ResponseEntity<Customer> deleteCustomer(Long id) {
+    @DeleteMapping("{id}")
+    public ResponseEntity<Customer> deleteCustomer(@PathVariable("id") Long id) {
         Customer customer = this.customerService.getById(id);
 
         if (customer == null) {
@@ -73,7 +72,7 @@ public class CustomerRestControllerV1 {
         return new ResponseEntity<Customer>(HttpStatus.NO_CONTENT);
     }
 
-    @RequestMapping(value = "", method = RequestMethod.GET, produces = MediaType.APPLICATION_JSON_UTF8_VALUE)
+    @GetMapping
     public ResponseEntity<List<Customer>> getAllCustomers() {
         List<Customer> customers = this.customerService.getAll();
 
